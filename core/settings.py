@@ -44,7 +44,7 @@ MIDDLEWARE = [
 ]
 
 # Asegúrate de cambiar 'tu_proyecto' por el nombre real de tu carpeta de configuración
-ROOT_URLCONF = 'api.urls'
+ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [
     {
@@ -62,7 +62,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'tu_proyecto.wsgi.application'
+WSGI_APPLICATION = 'core.wsgi.application'
 
 
 # BASE DE DATOS INTELIGENTE
