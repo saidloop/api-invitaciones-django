@@ -34,26 +34,34 @@ class Invitado(models.Model):
         if not self.id:
             return ""
             
-        # 1. Armamos la URL exacta de tu Vercel usando el UUID
-        enlace_vercel = f"https://invitaciones-v.vercel.app/{self.id}"
+# 1. Separamos el texto en bloques (sin emojis)
+        txt_1 = f"¡Hola {self.nombre}! "
+        txt_2 = f"\n\n¡Nos emociona muchísimo invitarte a {self.evento.nombre}! "
+        txt_3 = f" Tu presencia hará que este día sea aún más especial.\n\n"
+        txt_4 = f"Haz clic en el enlace para ver la invitación completa y confirmar tu asistencia; Te esperamos! "
+        txt_5 = f"\n\n{enlace_vercel}"
         
-        # 2. Redactamos el mensaje usando el nombre del invitado y el evento
-        mensaje = (
-            f"¡Hola {self.nombre}! \U0001F338\n\n"
-            f"¡Nos emociona muchísimo invitarte a {self.evento.nombre}! \U0001F338 Tu presencia hará que este día sea aún más especial.\n\n"
-            f"Haz clic en el enlace para ver la invitación completa y confirmar tu asistencia; Te esperamos! \u2728\n\n"
-            f"{enlace_vercel}"
-        )        
-        # 3. Codificamos el texto para que los espacios y saltos de línea funcionen en la URL
-        mensaje_codificado = urllib.parse.quote(mensaje)
+        # 2. Convertimos el texto normal a formato de enlace
+        url_1 = urllib.parse.quote(txt_1)
+        url_2 = urllib.parse.quote(txt_2)
+        url_3 = urllib.parse.quote(txt_3)
+        url_4 = urllib.parse.quote(txt_4)
+        url_5 = urllib.parse.quote(txt_5)
+        
+        # 3. Definimos los emojis exactos en lenguaje URL
+        flor = "%F0%9F%8C%B8"  # Código web para 🌸
+        brillo = "%E2%9C%A8"   # Código web para ✨
+        
+        # 4. Unimos todo como si fueran piezas de Lego
+        mensaje_final = f"{url_1}{flor}{url_2}{flor}{url_3}{url_4}{brillo}{url_5}"
         
         # Si el invitado tiene teléfono asignado, se envía directo a su número
         if self.telefono:
             numero_limpio = str(self.telefono).replace("+", "").replace(" ", "")
-            return f"https://wa.me/{numero_limpio}?text={mensaje_codificado}"
+            return f"https://wa.me/{numero_limpio}?text={mensaje_final}"
         
         # Si no tiene teléfono, abre la lista de contactos general como antes
-        return f"https://wa.me/?text={mensaje_codificado}"
+        return f"https://wa.me/?text={mensaje_final}"
 
 class RegistroEntrada(models.Model):
     invitado = models.ForeignKey(Invitado, on_delete=models.CASCADE)
