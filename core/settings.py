@@ -17,7 +17,10 @@ DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 # Permitir el dominio de Render y local
 ALLOWED_HOSTS = ['*']
 
-
+CORS_ALLOWED_ORIGINS = [
+    "https://invitaciones-v.vercel.app/", # Tu URL real de Vercel
+    # Si compraste un dominio personalizado, también ponlo aquí
+]
 # Application definition
 
 INSTALLED_APPS = [
