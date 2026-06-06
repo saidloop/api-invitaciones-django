@@ -27,6 +27,7 @@ class Invitado(models.Model):
     estado_asistencia = models.CharField(max_length=20, choices=ESTADOS, default='pendiente')
     pases = models.IntegerField(default=1) # Por si invitas a parejas o familias
     telefono = models.CharField(max_length=20, blank=True, null=True, help_text="Ej: 573001234567 (Código de país + número sin el +)")
+    
     def __str__(self):
         return f"{self.nombre} - {self.evento.nombre}"
 
@@ -34,7 +35,10 @@ class Invitado(models.Model):
         if not self.id:
             return ""
             
-# 1. Separamos el texto en bloques (sin emojis)
+        # 👉 SOLUCIÓN: Definir la variable enlace_vercel antes de usarla
+        enlace_vercel = f"https://invitaciones-v.vercel.app/{self.evento.slug}/{self.id}"
+            
+        # 1. Separamos el texto en bloques (sin emojis)
         txt_1 = f"¡Hola {self.nombre}! "
         txt_2 = f"\n\n¡Nos emociona muchísimo invitarte a {self.evento.nombre}! "
         txt_3 = f" Tu presencia hará que este día sea aún más especial.\n\n"
@@ -69,4 +73,3 @@ class RegistroEntrada(models.Model):
 
     def __str__(self):
         return f"Entrada de {self.invitado.nombre}"
-# Create your models here.
