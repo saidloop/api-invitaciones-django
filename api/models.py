@@ -36,7 +36,7 @@ class Invitado(models.Model):
             return ""
             
         # 👉 SOLUCIÓN: Definir la variable enlace_vercel antes de usarla
-        enlace_vercel = f"https://invitaciones-v.vercel.app/{self.evento.slug}/{self.id}"
+        enlace_vercel = f"https://invitaciones-v.vercel.app/evento/{self.evento.slug}/{self.id}"
             
         # 1. Separamos el texto en bloques (sin emojis)
         txt_1 = f"¡Hola {self.nombre}! "
