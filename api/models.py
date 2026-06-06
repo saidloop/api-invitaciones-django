@@ -1,3 +1,4 @@
+import urllib.parse
 import uuid
 from django.db import models
 
@@ -28,6 +29,23 @@ class Invitado(models.Model):
 
     def __str__(self):
         return f"{self.nombre} - {self.evento.nombre}"
+
+    def enlace_whatsapp(self):
+        if not self.id:
+            return ""
+            
+        # 1. Armamos la URL exacta de tu Vercel usando el UUID
+        enlace_vercel = f"https://invitaciones-v.vercel.app/{self.id}"
+        
+        # 2. Redactamos el mensaje usando el nombre del invitado y el evento
+        mensaje = f"¡Hola {self.nombre}! 🌸 ¡Nos emociona muchísimo invitarte a {self.evento.nombre}! 🌸 Tu presencia hará que este día sea aún más especial. Haz clic en el enlace para ver la invitación completa,y confirmar tu asistencia; Te esperamos! :✨{enlace_vercel}"
+        
+        # 3. Codificamos el texto para que los espacios y saltos de línea funcionen en la URL
+        mensaje_codificado = urllib.parse.quote(mensaje)
+        
+        # 4. Usamos la URL universal de WhatsApp (sin número). 
+        # Esto abrirá tu lista de contactos para que elijas a quién mandarlo.
+        return f"https://wa.me/?text={mensaje_codificado}"
 
 class RegistroEntrada(models.Model):
     invitado = models.ForeignKey(Invitado, on_delete=models.CASCADE)
