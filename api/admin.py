@@ -13,7 +13,7 @@ class InvitadoAdmin(admin.ModelAdmin):
     # Añadimos 'boton_whatsapp' al final de las columnas de la lista
     list_display = ('nombre', 'evento', 'estado_asistencia', 'pases', 'id', 'boton_whatsapp')
     list_filter = ('evento', 'estado_asistencia')
-    search_fields = ('nombre',)
+    search_fields = ('nombre','telefono')
     
     # Esto permite que el botón y el ID (UUID) se muestren también al entrar a editar un invitado
     readonly_fields = ('id', 'boton_whatsapp',)

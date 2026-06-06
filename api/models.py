@@ -26,7 +26,7 @@ class Invitado(models.Model):
     nombre = models.CharField(max_length=200)
     estado_asistencia = models.CharField(max_length=20, choices=ESTADOS, default='pendiente')
     pases = models.IntegerField(default=1) # Por si invitas a parejas o familias
-
+    telefono = models.CharField(max_length=20, blank=True, null=True, help_text="Ej: 573001234567 (Código de país + número sin el +)")
     def __str__(self):
         return f"{self.nombre} - {self.evento.nombre}"
 
@@ -38,13 +38,21 @@ class Invitado(models.Model):
         enlace_vercel = f"https://invitaciones-v.vercel.app/{self.id}"
         
         # 2. Redactamos el mensaje usando el nombre del invitado y el evento
-        mensaje = f"¡Hola {self.nombre}! 🌸 ¡Nos emociona muchísimo invitarte a {self.evento.nombre}! 🌸 Tu presencia hará que este día sea aún más especial. Haz clic en el enlace para ver la invitación completa,y confirmar tu asistencia; Te esperamos! :✨{enlace_vercel}"
-        
+        mensaje = (
+            f"¡Hola {self.nombre}! \U0001F338\n\n"
+            f"¡Nos emociona muchísimo invitarte a {self.evento.nombre}! \U0001F338 Tu presencia hará que este día sea aún más especial.\n\n"
+            f"Haz clic en el enlace para ver la invitación completa y confirmar tu asistencia; Te esperamos! \u2728\n\n"
+            f"{enlace_vercel}"
+        )        
         # 3. Codificamos el texto para que los espacios y saltos de línea funcionen en la URL
         mensaje_codificado = urllib.parse.quote(mensaje)
         
-        # 4. Usamos la URL universal de WhatsApp (sin número). 
-        # Esto abrirá tu lista de contactos para que elijas a quién mandarlo.
+        # Si el invitado tiene teléfono asignado, se envía directo a su número
+        if self.telefono:
+            numero_limpio = str(self.telefono).replace("+", "").replace(" ", "")
+            return f"https://wa.me/{numero_limpio}?text={mensaje_codificado}"
+        
+        # Si no tiene teléfono, abre la lista de contactos general como antes
         return f"https://wa.me/?text={mensaje_codificado}"
 
 class RegistroEntrada(models.Model):
