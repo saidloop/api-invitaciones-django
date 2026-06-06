@@ -39,9 +39,9 @@ class Invitado(models.Model):
         enlace_vercel = f"https://invitaciones-v.vercel.app/evento/{self.evento.slug}/{self.id}"
             
         mensaje = (
-            f"¡Hola {self.nombre}! 🌸 \n\n"
-            f"¡Nos emociona muchísimo invitarte a {self.evento.nombre}! 🌸 Tu presencia hará que este día sea aún más especial.\n\n"
-            f"Haz clic en el enlace para ver la invitación completa y confirmar tu asistencia; Te esperamos!🩷\n\n"
+            f"¡Hola {self.nombre}! \n\n"
+            f"¡Nos emociona muchísimo invitarte a {self.evento.nombre}! Tu presencia hará que este día sea aún más especial.\n\n"
+            f"Haz clic en el enlace para ver la invitación completa y confirmar tu asistencia; Te esperamos!\n\n"
             f"{enlace_vercel}"
         )
         
