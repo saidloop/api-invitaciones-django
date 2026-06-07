@@ -5,7 +5,9 @@ from dotenv import load_dotenv
 
 # Carga el archivo .env si existe (solo afectará en tu PC local)
 load_dotenv()
-
+# settings.py
+TIME_ZONE = 'America/Bogota' # Asegúrate de que esta sea tu zona horaria real
+USE_TZ = True # Si está en True, Django hace conversiones.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SEGURIDAD: En producción se lee desde el entorno de Render, si no existe usa una por defecto
